@@ -1,28 +1,46 @@
 # M254
 
 ## Ziel des Prozesses
-Der Prozess schickt automatisch eine E-Mail an eine Person. In der E-Mail steht, wie das Wetter an einem bestimmten Ort und zu einer bestimmten Zeit ist. Ausserdem ist ein lustiger Dad-joke dabei, damit man beim Lesen auch lachen kann. Das Ziel ist es also einfach bei Planungen das Wetter vorherzusehen
-
+Unser Prozess schickt automatisch eine E-Mail an eine Person. In der E-Mail steht, wie das Wetter an einem bestimmten Ort und zu einer bestimmten Zeit ist. Ausserdem ist ein lustiger Dad-Joke dabei, damit man beim Lesen auch lachen kann. Das Ziel ist es also, bei der Planung von Aktivitäten das Wetter besser einschätzen zu können.
 
 ## Inbetriebnahme vom Prozess
-Ich muss nur Docker desktop öffnen und den Container starten. Danach muss ich das BPMN mit localhost deployen. Anschliessend öffne ich im browser mit localhost:8081 und localhost:8082 die Camunda Operate und Tasklist Seite. 
+Wir öffnen Docker Desktop und starten den Container. Danach deployen wir das BPMN-Modell lokal über `localhost`. Anschliessend öffnen wir im Browser die Seiten `localhost:8081` für Camunda Operate und `localhost:8082` für die Tasklist.
 
 ## Bedienung vom Prozess
-Wenn man den Prozess startet sieht man ein Formular. Dort kann man aufschreiben wo man ist und wann man das Wetter wissen will.
-Danach wird es die Wetter Daten und den Dad Joke abrufen. anschliessend kommt wieder ein Formular erscheinen das man bestätig dass, das Mail wirklich gesendet werden soll. Anschliessend sollte es ein Mail mit dem Wetter und Dad Joke senden.
+Wenn wir den Prozess starten, erscheint zuerst ein Formular. Dort tragen wir ein, wo wir uns befinden und wann wir das Wetter wissen möchten. Danach holt sich der Prozess automatisch die Wetterdaten und einen Dad-Joke. Anschliessend erscheint ein weiteres Formular mit einer Checkbox, bei der wir bestätigen können, ob die E-Mail wirklich gesendet werden soll. Wenn wir zustimmen, wird die E-Mail mit dem Wetter und dem Witz verschickt.
 
 ## Funktionsweise des Prozesses
-Der Prozess beginnt mit einem Formular, in dem man den Ort und die Uhrzeit eingibt, für die man das Wetter wissen möchte. Danach fragt der Prozess automatisch ein openweathermap nach dem Wetter und holt sich zusätzlich einen lustigen Witz von icanhazdadjoke.
-
-Bevor die EMail abgeschickt wird, erscheint ein weiteres Formular. Dort kann man mit einer Checkbox auswählen, ob man die E-Mail wirklich bekommen möchte. Wenn man das Häkchen setzt, wird die EMail versendet. Wenn nicht, wird der Prozess beendet.
-
-Wenn man sich für den Versand entscheidet, schreibt der Prozess eine E-Mail mit dem Wetter und dem Witz und verschickt sie an die eingegebene Adresse.
-
+Der Prozess beginnt mit einem Formular, in dem wir den Ort und die Uhrzeit angeben. Danach ruft der Prozess über die OpenWeatherMap-API die Wetterdaten ab und fragt zusätzlich bei der icanhazdadjoke-API einen lustigen Witz an. Bevor die E-Mail versendet wird, erscheint ein weiteres Formular mit einer Checkbox. Dort entscheiden wir, ob wir die E-Mail wirklich erhalten möchten. Wenn wir die Checkbox aktivieren, wird die Nachricht erstellt und an die angegebene E-Mail-Adresse gesendet. Wenn wir sie nicht aktivieren, wird der Prozess ohne E-Mail beendet.
 
 ## Probleme mit AWS
-Ich habe Anfangs mit AWS gearbeitet aber ich hatte viele Probleme wenns ums Camunda operate und taskliste ging. Ich habe die meiste Zeit verbracht an einem Problem das ich schlussendlich gar nicht lösen konnte. Ich habe alles kontrolliert bei AWS und es hat sich nichts getan. Der Fehler war einfach nachdem ich den User Task abgeschlossen habe hat sich Wetter abrufen nicht ausgeführt. Es ist einfach stehen geblieben ohne Error. Ich habe es dann gelöst indem ich es einfach Lokal auf Docker desktop gemacht habe. Ich habe dennoch viel Zeit verloren wegen dem.
+Wir haben anfangs versucht, den Prozess mit AWS auszuführen. Dabei hatten wir jedoch viele Probleme, insbesondere mit Camunda Operate und der Tasklist. Ein grosser Teil unserer Zeit ging für ein Problem drauf, das wir am Ende nicht lösen konnten. Obwohl wir alle Einstellungen in AWS überprüft haben, blieb der Prozess nach dem User Task beim Wetterabrufen einfach stehen – ohne eine Fehlermeldung. Schliesslich haben wir den Prozess lokal mit Docker Desktop umgesetzt. Damit hat es funktioniert, aber wir haben dadurch viel Zeit verloren.
 
-## Probleme mit Send grid Mail
-Ich habe einen Send grid Account eingerichtet und den API-Key erstellt. Danach einen verified Sender erstellt. Ich habe es ins Camunda eingebaut mit dem Send Grid Outbound Connector. Danach im Camunda operate ist alles bis zum Ende durch. Ich habe aber kein Mail auf meine Email bekommen. Ich habe im Send grid Dashboard nachgeschaut, dort hatte es 4 Requests aber keine wurde zugestellt. Dafür hatte ich jedoch zu wenig Zeit um es zu lösen. 
+## Probleme mit SendGrid-Mail
+Wir haben einen SendGrid-Account eingerichtet, einen API-Key erstellt und einen verifizierten Absender hinzugefügt. Dann haben wir den Mailversand mit dem SendGrid Outbound Connector in Camunda eingebaut. In Camunda Operate wurde der Prozess korrekt bis zum Ende durchlaufen. Trotzdem haben wir keine E-Mail erhalten. Im SendGrid-Dashboard sahen wir, dass vier Requests angekommen sind, aber keine E-Mail zugestellt wurde. Leider reichte die Zeit nicht mehr aus, um dieses Problem vollständig zu lösen.
 
 
+##  Screenshots von allen Teilen
+
+### Start und User Task
+![alt text](image.png)
+![alt text](image-1.png)
+![alt text](image-2.png)
+#### Form für User Task
+![alt text](image-8.png)
+
+### API für Wetterdaten und Dad Joke
+![alt text](image-3.png)
+![alt text](image-4.png)
+![alt text](image-5.png)
+![alt text](image-6.png)
+![alt text](image-7.png)
+
+### Gateway bei Ja/Nein
+![alt text](image-9.png)
+![alt text](image-10.png)
+![alt text](image-11.png)
+
+### SendGrid Mail
+![alt text](image-12.png)
+![alt text](image-13.png)
+![alt text](image-14.png)
